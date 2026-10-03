@@ -1,0 +1,8 @@
+{
+  "name": "farmai-mvp",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Mobile-first agriculture assistant using the Gemini API",
+  "scripts": { "dev": "node server.js", "start": "node server.js", "test": "node --test" },
+  "engines": { "node": ">=18" }
+}
