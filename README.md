@@ -1,3 +1,4 @@
+
 # FarmAI MVP v0.1
 
 FarmAI is a mobile-friendly PWA for practical farm questions in Telugu or English. It supports Agriculture, Horticulture, and Fisheries today; Livestock has a prepared home card for the next release. Chat history remains in the user's browser for this MVP. The Gemini key is used only by `/api/chat`, never sent to the browser.
@@ -28,3 +29,7 @@ Vercel Hobby is appropriate for a personal/non-commercial MVP. It has fixed free
 ## Next modules
 
 Add weather, crop calendars, calculators, voice input, authentication, and a Supabase-backed history behind separate server routes. Add rate limiting and authentication before broadly sharing the deployed endpoint, because an unauthenticated public endpoint can exhaust a free Gemini quota.
+
+# farmai-mvp
+FarmAI — a free Telugu and English agriculture assistant for crop, plant, and fish guidance.
+
