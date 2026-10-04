@@ -1,5 +1,215 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#176b3a"><meta name="description" content="FarmAI — practical agriculture help in Telugu and English."><link rel="manifest" href="/manifest.webmanifest"><link rel="icon" href="/icon.svg"><link rel="stylesheet" href="/styles.css"><title>FarmAI</title></head><body>
-<main class="app"><header><div class="brand"><img src="/icon.svg" alt=""><span>Farm<span>AI</span></span></div><button id="lang" class="language" aria-label="Switch language">తె</button></header>
-<section id="home" class="view active"><div class="hero"><p class="eyebrow">YOUR FARMING COMPANION</p><h1>Better decisions,<br><em>from your field.</em></h1><p>Ask in Telugu or English. Get practical help for your farm, plants, and fish.</p><button class="primary start" data-sector="Agriculture">Ask FarmAI <b>→</b></button></div><section><div class="section-title"><h2>Choose your sector</h2><span>Tap to start</span></div><div class="cards"><button class="sector-card active-card" data-sector="Agriculture"><i>🌾</i><strong>Agriculture</strong><small>Crops & soil</small></button><button class="sector-card" data-sector="Horticulture"><i>🌱</i><strong>Horticulture</strong><small>Fruits & vegetables</small></button><button class="sector-card" data-sector="Fisheries"><i>🐟</i><strong>Fisheries</strong><small>Ponds & fish health</small></button><button class="sector-card muted" data-sector="Livestock"><i>🐄</i><strong>Livestock</strong><small>Coming soon</small></button></div></section><aside class="notice"><span>✦</span><p><b>Photo check</b><br>Upload a clear plant, crop, or fish photo for a guided assessment.</p></aside></section>
-<section id="chat" class="view"><div class="chat-head"><button class="back" aria-label="Back">←</button><div><b id="sector-name">Agriculture</b><small><span></span> FarmAI is ready</small></div><button id="clear" class="clear">Clear</button></div><div id="messages" class="messages"></div><div id="preview" class="preview" hidden><img alt="Selected image"><button aria-label="Remove photo">×</button></div><form id="composer"><label class="attach" title="Add a photo"><input id="file" type="file" accept="image/jpeg,image/png,image/webp" capture="environment"><span>⌁</span></label><textarea id="question" rows="1" maxlength="1000" placeholder="Ask about your crop…"></textarea><button id="send" type="submit" aria-label="Send">↑</button></form><p class="disclaimer">FarmAI gives guidance, not a substitute for local expert advice.</p></section>
-</main><script src="/app.js"></script></body></html>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#176b3a"><meta name="description" content="FarmAI — practical agriculture help in Telugu and English."><link rel="manifest" href="/manifest.webmanifest"><link rel="icon" href="/icon.svg"><link rel="stylesheet" href="/styles.css?v=7"><title>FarmAI</title></head><body>
+<main class="app"><header><div class="brand"><img src="/icon.svg" alt=""><span>Farm<span>AI</span></span></div><div class="language-picker" aria-label="Select language">
+  <button type="button" class="language-option" data-language="te">తెలుగు</button>
+  <button type="button" class="language-option active" data-language="en">English</button>
+  <button type="button" class="language-option" data-language="hi">हिंदी</button>
+</div></header>
+<section id="home" class="view active"><div class="hero"><p class="eyebrow">YOUR FARMING COMPANION</p><h1>Better decisions,<br><em>from your field.</em></h1><p>Ask in Telugu or English. Get practical help for your farm, plants, and fish.</p><button class="primary start" data-sector="Agriculture">Ask FarmAI <b>→</b></button></div><section><div class="section-title"><h2>Choose your sector</h2><span>Tap to start</span></div><div class="cards"><button class="sector-card active-card" data-sector="Agriculture"><i>🌾</i><strong>Agriculture</strong><small>Crops & soil</small></button><button class="sector-card" data-sector="Horticulture"><i>🌱</i><strong>Horticulture</strong><small>Fruits & vegetables</small></button><button class="sector-card" data-sector="Fisheries"><i>🐟</i><strong>Fisheries</strong><small>Ponds & fish health</small></button><button class="sector-card" data-sector="Livestock"><i>🐄</i><strong>Livestock</strong><small>Cattle • Buffalo • Goat • Sheep • Poultry</small></button></div></section><aside class="notice home-photo-check">
+  <span class="photo-check-icon">✦</span>
+  <div class="photo-check-content">
+    <p><b>FarmAI Photo Check</b><br>Check any photo with FarmAI.</p>
+
+    <button id="home-photo-start" class="primary home-photo-start" type="button">
+      🤖 FarmAI Photo Check
+    </button>
+
+    <div id="home-photo-tools" class="home-photo-tools" hidden>
+      <div class="photo-check-actions">
+        <label class="photo-check-button">
+          <input id="home-photo-file" type="file" accept="image/jpeg,image/png,image/webp">
+          📁 Upload Photo
+        </label>
+
+        <label class="photo-check-button">
+          <input id="home-camera-file" type="file" accept="image/jpeg,image/png,image/webp" capture="environment">
+          📷 Take Photo
+        </label>
+      </div>
+
+      <div id="home-photo-preview" class="home-photo-preview" hidden>
+        <img alt="Selected photo">
+        <button id="home-photo-remove" type="button" aria-label="Remove photo">×</button>
+      </div>
+
+      <button id="home-photo-analyze" class="primary home-photo-analyze" type="button" disabled>
+        🔍 Check Photo
+      </button>
+    </div>
+  </div>
+</aside></section>
+<section id="photo-check" class="view">
+  <div class="chat-head">
+    <button class="back photo-check-back" aria-label="Back">←</button>
+    <div>
+      <b>FarmAI Photo Check</b>
+      <small><span></span> AI visual analysis</small>
+    </div>
+    <button id="photo-check-clear" class="clear" type="button">Clear</button>
+  </div>
+
+  <div id="photo-check-messages" class="messages photo-check-messages"></div>
+
+  <div id="photo-check-preview" class="preview photo-check-preview" hidden>
+    <img alt="Selected photo">
+    <button id="photo-check-remove" aria-label="Remove photo" type="button">×</button>
+  </div>
+
+  <form id="photo-check-composer">
+    <label class="attach" title="Upload a photo">
+      <input id="photo-check-file" type="file" accept="image/jpeg,image/png,image/webp">
+      <span>⌁</span>
+    </label>
+
+    <label class="attach camera-capture" title="Capture with camera">
+      <input id="photo-check-camera" type="file" accept="image/jpeg,image/png,image/webp" capture="environment">
+      <span>📷</span>
+    </label>
+
+    <textarea id="photo-check-question" rows="1" maxlength="1000" placeholder="Ask FarmAI about this photo…"></textarea>
+    <button id="photo-check-send" type="submit" aria-label="Send">↑</button>
+  </form>
+
+  <p class="disclaimer">FarmAI can identify farm-related images and connect you to the right farm guidance.</p>
+</section>
+
+<section id="crop-select" class="view"><div class="chat-head"><button class="back crop-back" aria-label="Back">←</button><div><b id="crop-sector-name">Agriculture</b><small><span></span> Choose your crop</small></div></div><section id="crop-picker" class="crop-picker">
+<div class="section-title"><h2>Choose your crop</h2><span>For better guidance</span></div>
+<div id="crop-options-agriculture" class="crop-options category-thumbnail-grid">
+<button type="button" class="crop-option visual-thumb" data-crop="Rice">🌾<span>Rice</span></button>
+<button type="button" class="crop-option visual-thumb" data-crop="Cotton">🌿<span>Cotton</span></button>
+<button type="button" class="crop-option visual-thumb" data-crop="Maize">🌽<span>Maize</span></button>
+<button type="button" class="crop-option visual-thumb" data-crop="Groundnut">🥜<span>Groundnut</span></button>
+<button type="button" class="crop-option visual-thumb" data-crop="Other">➕<span>Other</span></button>
+</div>
+<div id="crop-options-horticulture" class="crop-options category-thumbnail-grid" hidden>
+<button type="button" class="crop-option visual-thumb" data-crop="Tomato">🍅<span>Tomato</span></button>
+<button type="button" class="crop-option visual-thumb" data-crop="Chilli">🌶️<span>Chilli</span></button>
+<button type="button" class="crop-option visual-thumb" data-crop="Brinjal">🍆<span>Brinjal</span></button>
+<button type="button" class="crop-option visual-thumb" data-crop="Okra">🥬<span>Okra</span></button>
+<button type="button" class="crop-option visual-thumb" data-crop="Onion">🧅<span>Onion</span></button>
+<button type="button" class="crop-option visual-thumb" data-crop="Mango">🥭<span>Mango</span></button>
+<button type="button" class="crop-option visual-thumb" data-crop="Banana">🍌<span>Banana</span></button>
+<button type="button" class="crop-option visual-thumb" data-crop="Other">➕<span>Other</span></button>
+</div><button id="crop-continue" class="primary crop-continue" type="button" disabled>Continue • కొనసాగించండి <b>→</b></button></section></section>
+<section id="farm-profile" class="view">
+<div class="chat-head"><button class="back profile-back" aria-label="Back">←</button><div><b id="profile-sector-name">Agriculture</b><small><span></span> Tell us about your farm • మీ పొలం వివరాలు</small></div></div>
+<section class="farm-profile-card">
+<div class="section-title"><h2>Farm Details • పొలం వివరాలు</h2><span>Better guidance for your crop • మంచి సూచనల కోసం</span></div>
+<label class="profile-label">Crop Stage • పంట దశ</label>
+<select id="crop-stage" class="profile-input">
+<option value="">Select crop stage</option>
+<option value="seedling">Seed / Nursery</option>
+<option value="vegetative">Vegetative growth</option>
+<option value="flowering">Flowering</option>
+<option value="fruiting">Fruit / Grain development</option>
+<option value="harvest">Harvest stage</option>
+</select>
+<label class="profile-label">Land Area • పొలం విస్తీర్ణం</label>
+<div class="profile-row"><input id="land-area" class="profile-input" type="number" min="0" step="0.1" placeholder="e.g. 2 • ఉదా: 2"><select id="land-unit" class="profile-input"><option>Acres</option><option>Guntas</option><option>Hectares</option></select></div>
+<label class="profile-label">Location • ప్రాంతం</label>
+<input id="farm-location" class="profile-input" type="text" maxlength="100" placeholder="Village / District / State • గ్రామం / జిల్లా / రాష్ట్రం">
+<button id="profile-continue" class="primary profile-continue" type="button" disabled>Continue <b>→</b></button>
+</section>
+</section>
+
+<section id="animal-select" class="view">
+  <div class="chat-head">
+    <button class="back animal-select-back" aria-label="Back">←</button>
+    <div>
+      <b id="animal-select-sector">Fisheries</b>
+      <small><span></span><span id="animal-select-subtitle">Select Type</span></small>
+    </div>
+  </div>
+
+  <section class="farm-profile-card selection-card">
+    <div class="section-title">
+      <h2 id="animal-select-title">Select Type</h2>
+      <span id="animal-select-help">Choose what you are farming</span>
+    </div>
+
+    <div id="fish-select-options" class="crop-options category-thumbnail-grid fisheries-grid">
+      <button type="button" class="crop-option animal-option visual-thumb" data-animal-kind="fish" data-value="Rohu">🐟<span>Rohu</span></button>
+      <button type="button" class="crop-option animal-option visual-thumb" data-animal-kind="fish" data-value="Catla">🐟<span>Catla</span></button>
+      <button type="button" class="crop-option animal-option visual-thumb" data-animal-kind="fish" data-value="Mrigal">🐟<span>Mrigal</span></button>
+      <button type="button" class="crop-option animal-option visual-thumb" data-animal-kind="fish" data-value="Tilapia">🐟<span>Tilapia</span></button>
+      <button type="button" class="crop-option animal-option visual-thumb" data-animal-kind="fish" data-value="Pangasius">🐟<span>Pangasius</span></button>
+      <button type="button" class="crop-option animal-option visual-thumb" data-animal-kind="fish" data-value="Prawns / Shrimp">🦐<span>Prawns / Shrimp</span></button>
+      <button type="button" class="crop-option animal-option visual-thumb" data-animal-kind="fish" data-value="Crabs">🦀<span>Crabs</span></button>
+      <button type="button" class="crop-option animal-option visual-thumb" data-animal-kind="fish" data-value="Other">➕<span>Other</span></button>
+    </div>
+
+    <div id="livestock-select-options" class="crop-options category-thumbnail-grid livestock-grid" hidden>
+      <button type="button" class="crop-option animal-option visual-thumb" data-animal-kind="livestock" data-value="Cow">🐄<span>Cow</span></button>
+      <button type="button" class="crop-option animal-option visual-thumb" data-animal-kind="livestock" data-value="Buffalo">🐃<span>Buffalo</span></button>
+      <button type="button" class="crop-option animal-option visual-thumb" data-animal-kind="livestock" data-value="Goat">🐐<span>Goat</span></button>
+      <button type="button" class="crop-option animal-option visual-thumb" data-animal-kind="livestock" data-value="Sheep">🐑<span>Sheep</span></button>
+      <button type="button" class="crop-option animal-option visual-thumb" data-animal-kind="livestock" data-value="Poultry">🐔<span>Poultry</span></button>
+      <button type="button" class="crop-option animal-option visual-thumb" data-animal-kind="livestock" data-value="Other">➕<span>Other</span></button>
+    </div>
+
+    <button id="animal-select-continue" class="primary profile-continue" type="button" disabled>
+      Continue <b>→</b>
+    </button>
+  </section>
+</section>
+
+<section id="animal-profile" class="view">
+<div class="chat-head"><button class="back animal-profile-back" aria-label="Back">←</button><div><b id="animal-sector-name">Fisheries</b><small><span></span> Tell us about your farm</small></div></div>
+<section class="farm-profile-card">
+<div class="section-title"><h2 id="animal-profile-title">Farm Details</h2><span id="animal-profile-subtitle">Better guidance for your farm</span></div>
+
+<div id="fisheries-fields">
+<label class="profile-label">Fish Type • చేప రకం</label>
+<select id="fish-type" class="profile-input">
+<option value="">Select fish type</option>
+<option>Rohu</option>
+<option>Catla</option>
+<option>Mrigal</option>
+<option>Tilapia</option>
+<option>Pangasius</option>
+<option>Prawns / Shrimp</option>
+<option>Crabs</option>
+<option>Other</option>
+</select>
+
+<label class="profile-label">Pond Area • చెరువు విస్తీర్ణం</label>
+<div class="profile-row"><input id="pond-area" class="profile-input" type="number" min="0" step="0.1" placeholder="e.g. 2"><select id="pond-unit" class="profile-input"><option>Acres</option><option>Guntas</option><option>Hectares</option></select></div>
+</div>
+
+<div id="livestock-fields" hidden>
+<label class="profile-label">Animal Type • జంతువు రకం</label>
+<select id="animal-type" class="profile-input">
+<option value="">Select animal</option>
+<option>Cow</option>
+<option>Buffalo</option>
+<option>Goat</option>
+<option>Sheep</option>
+<option>Poultry</option>
+<option>Other</option>
+</select>
+
+<label class="profile-label">Number of Animals • జంతువుల సంఖ్య</label>
+<input id="animal-count" class="profile-input" type="number" min="1" step="1" placeholder="e.g. 10">
+</div>
+
+<label class="profile-label">Location • ప్రాంతం</label>
+<input id="animal-location" class="profile-input" type="text" maxlength="100" placeholder="Village / District / State • గ్రామం / జిల్లా / రాష్ట్రం">
+
+<button id="animal-profile-continue" class="primary profile-continue" type="button" disabled>Continue <b>→</b></button>
+</section>
+</section>
+<section id="chat" class="view"><div class="chat-head"><button class="back" aria-label="Back">←</button><div><b id="sector-name">Agriculture</b><small><span></span> FarmAI is ready</small></div><button id="clear" class="clear">Clear</button></div><div id="messages" class="messages"></div><div id="preview" class="preview" hidden><img alt="Selected image"><button aria-label="Remove photo">×</button></div><form id="composer"><label class="attach" title="Upload a photo">
+<input id="file" type="file" accept="image/jpeg,image/png,image/webp">
+<span>⌁</span>
+</label>
+<label class="attach camera-capture" title="Capture with camera">
+<input id="camera-file" type="file" accept="image/jpeg,image/png,image/webp" capture="environment">
+<span>📷</span>
+</label><textarea id="question" rows="1" maxlength="1000" placeholder="Ask about your crop…"></textarea><button id="send" type="submit" aria-label="Send">↑</button></form><p class="disclaimer">FarmAI gives guidance, not a substitute for local expert advice.</p></section>
+</main><script src="/app.js?v=7"></script><div id="farm-transition" class="farm-transition" aria-hidden="true">
+  <div class="farm-transition-card">
+    <div id="farm-transition-icon" class="farm-transition-icon">🌱</div>
+    <div id="farm-transition-text" class="farm-transition-text">Opening FarmAI…</div>
+    <div class="farm-transition-dots"><i></i><i></i><i></i></div>
+  </div>
+</div></body></html>

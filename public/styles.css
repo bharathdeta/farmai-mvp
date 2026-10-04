@@ -1,1 +1,1051 @@
 :root{--green:#176b3a;--deep:#103e26;--light:#eff7ee;--cream:#f7faf5;--ink:#173525;--muted:#708074}*{box-sizing:border-box}body{margin:0;background:var(--cream);font-family:ui-rounded,"Avenir Next",system-ui,sans-serif;color:var(--ink)}button,textarea{font:inherit}.app{max-width:720px;min-height:100dvh;margin:auto;padding:22px 20px calc(18px + env(safe-area-inset-bottom))}header{display:flex;align-items:center;justify-content:space-between}.brand{display:flex;gap:8px;align-items:center;font-size:24px;font-weight:800;letter-spacing:-1px}.brand img{width:34px}.brand span span{color:#58ad55}.language,.clear{border:0;background:#e4efe3;color:var(--green);border-radius:12px;padding:8px 12px;font-weight:700}.view{display:none}.view.active{display:block}.hero{padding:52px 0 38px}.eyebrow{font-size:11px;letter-spacing:1.4px;font-weight:800;color:#48924c}.hero h1{font-size:clamp(38px,10vw,58px);line-height:1.03;letter-spacing:-2.4px;margin:9px 0 16px}.hero em{font-family:Georgia,serif;color:#399142;font-weight:500}.hero>p:not(.eyebrow){max-width:430px;line-height:1.55;color:#526559;margin-bottom:25px}.primary{border:0;border-radius:14px;background:var(--green);color:white;font-weight:750;padding:15px 18px;box-shadow:0 7px 16px #176b3a33}.primary b{font-size:20px;margin-left:8px}.section-title{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:13px}.section-title h2{font-size:17px;margin:0}.section-title span{font-size:12px;color:var(--muted)}.cards{display:grid;grid-template-columns:1fr 1fr;gap:10px}.sector-card{text-align:left;background:#fff;border:1px solid #e2ebe1;border-radius:15px;padding:15px;min-height:116px;color:var(--ink);cursor:pointer}.sector-card i{font-style:normal;font-size:27px;display:block;margin-bottom:10px}.sector-card strong,.sector-card small{display:block}.sector-card strong{font-size:14px}.sector-card small{font-size:11px;color:var(--muted);margin-top:3px}.active-card{border-color:#67ab65;background:#f3faef}.muted{opacity:.72}.notice{margin:28px 0 8px;border-radius:15px;background:#e6f3df;display:flex;gap:12px;padding:15px;color:#3e6543}.notice span{font-size:20px;color:#4c984d}.notice p{font-size:12px;line-height:1.45;margin:0}.chat-head{display:flex;align-items:center;gap:11px;padding:3px 0 15px;border-bottom:1px solid #e1e9df}.back{border:0;background:white;border-radius:12px;width:38px;height:38px;font-size:22px}.chat-head div{flex:1}.chat-head b,.chat-head small{display:block}.chat-head small{font-size:11px;color:var(--muted);margin-top:3px}.chat-head small span{display:inline-block;width:7px;height:7px;background:#4da858;border-radius:50%}.clear{font-size:11px}.messages{min-height:calc(100dvh - 204px);padding:22px 0 12px;display:flex;flex-direction:column;gap:14px}.bubble{max-width:88%;padding:12px 14px;border-radius:16px;white-space:pre-wrap;font-size:14px;line-height:1.5}.bot{background:white;border:1px solid #e2ebe1;border-bottom-left-radius:4px}.user{align-self:flex-end;background:var(--green);color:white;border-bottom-right-radius:4px}.typing{color:var(--muted);font-size:13px}.preview{position:relative;width:max-content;margin:0 0 8px}.preview img{height:64px;width:64px;object-fit:cover;border-radius:10px}.preview button{position:absolute;right:-7px;top:-7px;width:20px;height:20px;border-radius:50%;background:#163b27;color:white;border:0}.attach{width:42px;height:42px;display:grid;place-items:center;color:var(--green);cursor:pointer;font-size:25px}.attach input{display:none}#composer{display:flex;gap:5px;align-items:end;background:white;border:1px solid #dce8db;border-radius:16px;padding:5px 7px;box-shadow:0 4px 15px #143a2210}textarea{border:0;outline:0;resize:none;flex:1;max-height:110px;padding:10px 2px;color:var(--ink);background:transparent}#send{border:0;border-radius:11px;background:var(--green);color:white;width:39px;height:39px;font-size:21px}.disclaimer{text-align:center;color:#8a978d;font-size:10px;margin:9px 0 0}@media(min-width:600px){.app{padding-top:30px}.cards{grid-template-columns:repeat(4,1fr)}.sector-card{min-height:126px}.messages{min-height:500px}}
+
+.crop-option.selected {
+  border: 2px solid #176b3a;
+  background: #e8f6ed;
+  color: #176b3a;
+  box-shadow: 0 0 0 2px rgba(23,107,58,.12);
+  transform: translateY(-1px);
+  position: relative;
+}
+
+.crop-option.selected::after {
+  content: "✓";
+  position: absolute;
+  top: 5px;
+  right: 7px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #176b3a;
+  color: white;
+  font-size: 13px;
+  line-height: 20px;
+  text-align: center;
+  font-weight: 700;
+}
+
+.farm-profile-card{padding:4px 0 20px}
+.profile-label{display:block;font-size:13px;font-weight:700;color:#26372b;margin:18px 0 7px}
+.profile-input{width:100%;box-sizing:border-box;border:1px solid #d5dfd5;border-radius:12px;background:#fff;padding:13px 12px;font:inherit;color:#26372b;outline:none}
+.profile-input:focus{border-color:#176b3a;box-shadow:0 0 0 3px rgba(23,107,58,.08)}
+.profile-row{display:grid;grid-template-columns:1fr 125px;gap:9px}
+.profile-continue{width:100%;margin-top:24px}
+.profile-continue:disabled{opacity:.5;cursor:not-allowed}
+
+
+/* ---------- FarmAI premium interactions ---------- */
+button,
+.attach,
+.sector-card,
+.crop-option {
+  -webkit-tap-highlight-color: transparent;
+}
+
+button,
+.attach,
+.sector-card,
+.crop-option {
+  transition:
+    transform .18s ease,
+    box-shadow .22s ease,
+    border-color .22s ease,
+    background-color .22s ease,
+    opacity .18s ease;
+}
+
+button:not(:disabled):hover,
+.attach:hover,
+.sector-card:hover,
+.crop-option:hover {
+  transform: translateY(-2px);
+}
+
+button:not(:disabled):active,
+.attach:active,
+.sector-card:active,
+.crop-option:active {
+  transform: scale(.97);
+}
+
+.sector-card:hover,
+.crop-option:hover {
+  box-shadow: 0 8px 24px rgba(0,0,0,.08);
+}
+
+.sector-card.active-card,
+.crop-option.selected {
+  animation: farmSelect .28s ease-out;
+}
+
+@keyframes farmSelect {
+  0%   { transform: scale(.96); }
+  55%  { transform: scale(1.025); }
+  100% { transform: scale(1); }
+}
+
+/* Chat waiting animation */
+.typing {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 42px;
+  animation: typingAppear .25s ease-out;
+}
+
+.typing .farm-ai-pulse {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  animation: farmPulse 1.15s ease-in-out infinite;
+}
+
+.typing .farm-ai-pulse:nth-child(2) {
+  animation-delay: .16s;
+}
+
+.typing .farm-ai-pulse:nth-child(3) {
+  animation-delay: .32s;
+}
+
+.typing .farm-ai-status {
+  font-weight: 600;
+}
+
+@keyframes farmPulse {
+  0%, 70%, 100% {
+    transform: scale(.55);
+    opacity: .35;
+  }
+  35% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes typingAppear {
+  from {
+    opacity: 0;
+    transform: translateY(5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Send button loading feel */
+#send:disabled {
+  opacity: .62;
+  cursor: wait;
+}
+
+/* Respect reduced-motion accessibility */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+  }
+}
+
+
+/* ---------- FarmAI moving sector indicator ---------- */
+.sector-list,
+.sectors,
+.sector-grid,
+.sector-cards {
+  position: relative;
+}
+
+.sector-active-indicator {
+  position: absolute;
+  z-index: 0;
+  pointer-events: none;
+  border-radius: 18px;
+  background: rgba(35, 150, 75, .10);
+  border: 1.5px solid rgba(35, 150, 75, .42);
+  box-shadow:
+    0 8px 24px rgba(35, 150, 75, .12),
+    inset 0 0 18px rgba(35, 150, 75, .05);
+  transition:
+    left .32s cubic-bezier(.22,.8,.25,1),
+    top .32s cubic-bezier(.22,.8,.25,1),
+    width .32s cubic-bezier(.22,.8,.25,1),
+    height .32s cubic-bezier(.22,.8,.25,1),
+    opacity .2s ease;
+}
+
+.sector-card {
+  position: relative;
+  z-index: 1;
+}
+
+.sector-card.active-card {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 28px rgba(35, 150, 75, .14);
+}
+
+.sector-card:hover {
+  transform: translateY(-3px);
+}
+
+.sector-card:active {
+  transform: scale(.975);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sector-active-indicator {
+    transition: none;
+  }
+}
+
+/* ---------- FarmAI sector transition ---------- */
+.farm-transition {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: grid;
+  place-items: center;
+  background: rgba(255,255,255,.94);
+  backdrop-filter: blur(7px);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .18s ease;
+}
+
+.farm-transition.show {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.farm-transition-card {
+  text-align: center;
+  animation: farmTransitionIn .38s cubic-bezier(.2,.8,.2,1);
+}
+
+.farm-transition-icon {
+  width: 74px;
+  height: 74px;
+  margin: 0 auto 12px;
+  display: grid;
+  place-items: center;
+  border-radius: 24px;
+  font-size: 38px;
+  background: rgba(35,150,75,.10);
+  box-shadow:
+    0 0 0 0 rgba(35,150,75,.20),
+    0 12px 35px rgba(35,150,75,.15);
+  animation: farmIconPulse .65s ease-out;
+}
+
+.farm-transition-text {
+  font-size: 15px;
+  font-weight: 700;
+  opacity: .78;
+}
+
+.farm-transition-dots {
+  display: flex;
+  justify-content: center;
+  gap: 5px;
+  margin-top: 9px;
+}
+
+.farm-transition-dots i {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: currentColor;
+  animation: farmDot .7s infinite ease-in-out;
+}
+
+.farm-transition-dots i:nth-child(2) {
+  animation-delay: .12s;
+}
+
+.farm-transition-dots i:nth-child(3) {
+  animation-delay: .24s;
+}
+
+@keyframes farmTransitionIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(.92);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes farmIconPulse {
+  0% {
+    transform: scale(.72);
+    box-shadow: 0 0 0 0 rgba(35,150,75,.28);
+  }
+  55% {
+    transform: scale(1.08);
+    box-shadow: 0 0 0 15px rgba(35,150,75,0);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes farmDot {
+  0%, 100% {
+    transform: translateY(0);
+    opacity: .35;
+  }
+  50% {
+    transform: translateY(-4px);
+    opacity: 1;
+  }
+}
+
+.view.sector-opening {
+  animation: sectorPageIn .42s cubic-bezier(.2,.8,.2,1);
+}
+
+@keyframes sectorPageIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(.985);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .farm-transition,
+  .farm-transition-card,
+  .farm-transition-icon,
+  .farm-transition-dots i,
+  .view.sector-opening {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+
+/* FarmAI visual second-step thumbnails */
+.thumbnail-grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:14px;
+  margin-top:16px;
+}
+
+.visual-thumb{
+  min-height:118px;
+  position:relative;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  border:1px solid rgba(30,120,65,.14);
+  border-radius:20px;
+  background:linear-gradient(145deg,#ffffff,#f5faf6);
+  box-shadow:0 5px 18px rgba(0,0,0,.055);
+  font-size:42px;
+  cursor:pointer;
+  overflow:hidden;
+}
+
+.visual-thumb span{
+  font-size:15px;
+  font-weight:700;
+  color:#183b27;
+  letter-spacing:.1px;
+}
+
+.visual-thumb::after{
+  content:"";
+  position:absolute;
+  inset:auto -20px -34px;
+  height:70px;
+  border-radius:50%;
+  background:rgba(35,150,75,.055);
+  pointer-events:none;
+}
+
+.visual-thumb:hover{
+  transform:translateY(-4px) scale(1.015);
+  border-color:rgba(35,150,75,.38);
+  box-shadow:0 12px 28px rgba(35,150,75,.13);
+}
+
+.visual-thumb.selected{
+  border-color:rgba(35,150,75,.65);
+  background:linear-gradient(145deg,#f0fbf3,#ffffff);
+  box-shadow:
+    0 12px 30px rgba(35,150,75,.16),
+    inset 0 0 0 2px rgba(35,150,75,.12);
+  animation:animalThumbSelect .28s ease-out;
+}
+
+@keyframes animalThumbSelect{
+  0%{transform:scale(.94)}
+  60%{transform:scale(1.045)}
+  100%{transform:scale(1)}
+}
+
+.visual-thumb.selected span::after{
+  content:"✓";
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  width:20px;
+  height:20px;
+  margin-left:7px;
+  border-radius:50%;
+  background:#23964b;
+  color:#fff;
+  font-size:12px;
+  vertical-align:middle;
+}
+
+@media(max-width:420px){
+  .thumbnail-grid{
+    gap:11px;
+  }
+  .visual-thumb{
+    min-height:108px;
+    font-size:36px;
+  }
+}
+
+/* Reliable second-page back button */
+.animal-select-back{
+  cursor:pointer;
+  z-index:5;
+}
+
+
+/* =========================================================
+   FarmAI — Category-specific realistic thumbnail cards
+   ========================================================= */
+
+.category-thumbnail-grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:14px;
+  margin-top:16px;
+}
+
+.category-thumbnail-grid .visual-thumb{
+  position:relative;
+  min-height:148px;
+  padding:0;
+  overflow:hidden;
+  display:flex;
+  flex-direction:column;
+  justify-content:flex-end;
+  align-items:stretch;
+  border-radius:20px;
+  border:1px solid rgba(35,150,75,.14);
+  background:#fff;
+  box-shadow:0 6px 20px rgba(0,0,0,.07);
+  transform:translateZ(0);
+}
+
+.category-thumbnail-grid .visual-thumb .thumb-photo{
+  width:100%;
+  height:105px;
+  object-fit:cover;
+  display:block;
+  transition:transform .35s ease;
+}
+
+.category-thumbnail-grid .visual-thumb > span{
+  position:relative;
+  z-index:2;
+  display:block;
+  padding:9px 10px 11px;
+  background:rgba(255,255,255,.96);
+  color:#183b27;
+  font-size:14px;
+  font-weight:700;
+  text-align:left;
+}
+
+.category-thumbnail-grid .visual-thumb:hover .thumb-photo{
+  transform:scale(1.07);
+}
+
+.category-thumbnail-grid .visual-thumb:hover{
+  transform:translateY(-4px);
+  box-shadow:0 13px 30px rgba(35,150,75,.14);
+  border-color:rgba(35,150,75,.38);
+}
+
+.category-thumbnail-grid .visual-thumb.selected{
+  border:2px solid #23964b;
+  box-shadow:
+    0 12px 30px rgba(35,150,75,.20),
+    0 0 0 3px rgba(35,150,75,.08);
+  animation:categoryThumbSelect .28s ease-out;
+}
+
+.category-thumbnail-grid .visual-thumb.selected > span{
+  color:#17743a;
+}
+
+.category-thumbnail-grid .visual-thumb.selected > span::after{
+  content:"✓";
+  float:right;
+  width:21px;
+  height:21px;
+  border-radius:50%;
+  background:#23964b;
+  color:#fff;
+  font-size:12px;
+  line-height:21px;
+  text-align:center;
+}
+
+@keyframes categoryThumbSelect{
+  0%{transform:scale(.96)}
+  55%{transform:scale(1.025)}
+  100%{transform:scale(1)}
+}
+
+/* Prevent a sector's thumbnail grid from visually inheriting another grid */
+#crop-options-agriculture,
+#crop-options-horticulture,
+#fish-select-options,
+#livestock-select-options{
+  width:100%;
+}
+
+#crop-options-agriculture[hidden],
+#crop-options-horticulture[hidden],
+#fish-select-options[hidden],
+#livestock-select-options[hidden]{
+  display:none !important;
+}
+
+@media(max-width:420px){
+  .category-thumbnail-grid{
+    gap:11px;
+  }
+
+  .category-thumbnail-grid .visual-thumb{
+    min-height:138px;
+  }
+
+  .category-thumbnail-grid .visual-thumb .thumb-photo{
+    height:96px;
+  }
+}
+
+/* ---------- FarmAI Smart Diagnosis Card ---------- */
+.smart-diagnosis-message{
+  width:100%;
+  max-width:720px;
+  padding:0 !important;
+  overflow:hidden;
+  background:transparent !important;
+  border:none !important;
+  box-shadow:none !important;
+}
+
+.diagnosis-intro{
+  padding:14px 16px;
+  margin-bottom:10px;
+  border-radius:16px;
+  background:var(--card,#fff);
+  border:1px solid rgba(0,0,0,.07);
+  line-height:1.6;
+}
+
+.diagnosis-section{
+  margin:10px 0;
+  padding:14px 16px;
+  border-radius:16px;
+  background:var(--card,#fff);
+  border:1px solid rgba(0,0,0,.07);
+  box-shadow:0 2px 10px rgba(0,0,0,.04);
+}
+
+.diagnosis-heading{
+  font-weight:800;
+  font-size:15px;
+  line-height:1.35;
+  margin-bottom:9px;
+}
+
+.diagnosis-section p{
+  margin:6px 0 0;
+  line-height:1.6;
+}
+
+.diagnosis-list{
+  margin:4px 0 0;
+  padding-left:20px;
+}
+
+.diagnosis-list li{
+  margin:7px 0;
+  line-height:1.55;
+}
+
+.diagnosis-possible .diagnosis-heading{
+  font-size:17px;
+}
+
+.diagnosis-expert{
+  border-left:4px solid currentColor;
+}
+
+@media (max-width:600px){
+  .smart-diagnosis-message{
+    max-width:100%;
+  }
+
+  .diagnosis-section{
+    margin:8px 0;
+    padding:13px 14px;
+    border-radius:14px;
+  }
+
+  .diagnosis-heading{
+    font-size:14px;
+  }
+
+  .diagnosis-possible .diagnosis-heading{
+    font-size:16px;
+  }
+
+  .diagnosis-list li,
+  .diagnosis-section p{
+    font-size:14px;
+  }
+}
+
+
+/* Smart Diagnosis visual layer — UI only */
+.smart-diagnosis-message{
+  max-width:96%;
+  padding:0 !important;
+  background:transparent !important;
+  border:0 !important;
+}
+
+.smart-diagnosis-message .diagnosis-intro{
+  background:#f0f8ed;
+  border:1px solid #dcebd8;
+  border-radius:16px;
+  padding:13px 14px;
+  margin-bottom:8px;
+}
+
+.smart-diagnosis-message .diagnosis-section{
+  background:#fff;
+  border:1px solid #e2ebe1;
+  border-radius:16px;
+  padding:13px 14px;
+  margin:8px 0;
+}
+
+.smart-diagnosis-message .diagnosis-heading{
+  font-weight:800;
+  margin-bottom:7px;
+}
+
+.smart-diagnosis-message .diagnosis-list{
+  margin:5px 0 0;
+  padding-left:20px;
+}
+
+.smart-diagnosis-message .diagnosis-list li{
+  margin:5px 0;
+}
+
+.smart-diagnosis-message .diagnosis-section p{
+  margin:5px 0 0;
+}
+
+@media(max-width:600px){
+  .smart-diagnosis-message{
+    max-width:100%;
+  }
+}
+
+/* Home Photo Check - proper action buttons */
+.home-photo-check .photo-check-actions{
+  display:flex;
+  gap:10px;
+  margin-top:12px;
+}
+
+.home-photo-check .photo-check-button{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-height:46px;
+  padding:0 16px;
+  border:1px solid #176b3a;
+  border-radius:12px;
+  background:#fff;
+  color:#176b3a;
+  font-weight:700;
+  cursor:pointer;
+  flex:1;
+}
+
+.home-photo-check .photo-check-button input{
+  display:none;
+}
+
+.home-photo-check .photo-check-button:active{
+  transform:scale(.98);
+}
+
+@media(max-width:600px){
+  .home-photo-check .photo-check-actions{
+    flex-direction:column;
+  }
+}
+
+/* Small Home Photo Check preview */
+.home-photo-check .home-photo-preview{
+  position:relative;
+  width:180px;
+  height:130px;
+  margin:12px auto;
+  border-radius:12px;
+  overflow:hidden;
+  background:#f1f5f1;
+  border:1px solid #dce7dc;
+}
+
+.home-photo-check .home-photo-preview img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
+}
+
+.home-photo-check .home-photo-preview button{
+  position:absolute;
+  top:5px;
+  right:5px;
+  width:28px;
+  height:28px;
+  border:0;
+  border-radius:50%;
+  background:#fff;
+  font-size:20px;
+  line-height:28px;
+  cursor:pointer;
+}
+
+@media(max-width:600px){
+  .home-photo-check .home-photo-preview{
+    width:160px;
+    height:115px;
+  }
+}
+
+/* FarmAI Photo Check - AI scanning animation */
+.home-photo-check .photo-check-loading{
+  margin-top:14px;
+  padding:18px;
+  border-radius:16px;
+  background:#f4faf2;
+  border:1px solid #dcebd8;
+  text-align:center;
+}
+
+.home-photo-check .scan-icon{
+  position:relative;
+  width:58px;
+  height:58px;
+  margin:0 auto 10px;
+  border-radius:50%;
+  background:#176b3a;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:28px;
+  animation:farmaiPulse 1.4s ease-in-out infinite;
+}
+
+.home-photo-check .scan-ring{
+  position:absolute;
+  inset:-6px;
+  border:2px solid #72b85c;
+  border-radius:50%;
+  animation:farmaiRing 1.5s linear infinite;
+}
+
+.home-photo-check .scan-text{
+  font-weight:800;
+  color:#176b3a;
+}
+
+.home-photo-check .scan-dots::after{
+  content:'';
+  animation:farmaiDots 1.4s steps(4,end) infinite;
+}
+
+@keyframes farmaiPulse{
+  0%,100%{transform:scale(1)}
+  50%{transform:scale(1.08)}
+}
+
+@keyframes farmaiRing{
+  0%{transform:scale(.85);opacity:1}
+  100%{transform:scale(1.25);opacity:0}
+}
+
+@keyframes farmaiDots{
+  0%{content:''}
+  25%{content:'.'}
+  50%{content:'..'}
+  75%{content:'...'}
+  100%{content:''}
+}
+
+/* DEDICATED FARM AI PHOTO CHECK UI */
+#photo-check{
+  display:none;
+  flex-direction:column;
+  height:100%;
+  min-height:calc(100vh - 24px);
+  background:#f8fbf7;
+}
+
+#photo-check.active{
+  display:flex;
+}
+
+#photo-check .photo-check-messages{
+  flex:1;
+  min-height:0;
+  overflow-y:auto;
+  padding:24px 20px 120px;
+}
+
+#photo-check .photo-check-preview{
+  position:relative;
+  width:min(260px,calc(100% - 40px));
+  height:190px;
+  margin:0 auto 12px;
+  border-radius:18px;
+  overflow:hidden;
+  border:1px solid #d9e8d8;
+  background:#eef6ec;
+}
+
+#photo-check .photo-check-preview img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+#photo-check .photo-check-preview button{
+  position:absolute;
+  top:8px;
+  right:8px;
+  width:34px;
+  height:34px;
+  border:0;
+  border-radius:50%;
+  background:rgba(0,0,0,.65);
+  color:#fff;
+  font-size:22px;
+  cursor:pointer;
+}
+
+#photo-check-composer{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  padding:12px 16px 14px;
+  background:#fff;
+  border-top:1px solid #dfe9de;
+  box-shadow:0 -4px 18px rgba(20,70,30,.06);
+}
+
+#photo-check-composer .attach{
+  flex:0 0 52px;
+  width:52px;
+  height:52px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border:1px solid #b9d7b8;
+  border-radius:14px;
+  background:#f4faf2;
+  color:#176b3a;
+  cursor:pointer;
+  font-size:22px;
+}
+
+#photo-check-composer .attach input{
+  display:none;
+}
+
+#photo-check-composer .attach span{
+  line-height:1;
+}
+
+#photo-check-composer #photo-check-question{
+  flex:1;
+  min-width:0;
+  min-height:52px;
+  max-height:120px;
+  resize:none;
+  padding:14px 15px;
+  border:1px solid #d5e3d3;
+  border-radius:15px;
+  background:#fff;
+  color:#17351f;
+  font:inherit;
+  outline:none;
+}
+
+#photo-check-composer #photo-check-question:focus{
+  border-color:#5b9b63;
+  box-shadow:0 0 0 3px rgba(91,155,99,.12);
+}
+
+#photo-check-composer #photo-check-send{
+  flex:0 0 52px;
+  width:52px;
+  height:52px;
+  border:0;
+  border-radius:14px;
+  background:#176b3a;
+  color:#fff;
+  font-size:24px;
+  font-weight:800;
+  cursor:pointer;
+}
+
+#photo-check-composer #photo-check-send:active{
+  transform:scale(.96);
+}
+
+#photo-check .disclaimer{
+  margin:0;
+  padding:0 16px 10px;
+  text-align:center;
+  background:#fff;
+  color:#718071;
+  font-size:11px;
+}
+
+#photo-check .photo-check-full-loading{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  min-height:260px;
+  margin:20px auto;
+  padding:30px;
+  border:1px solid #dcebd8;
+  border-radius:20px;
+  background:#f3faf1;
+  text-align:center;
+}
+
+#photo-check .photo-check-full-loading .scan-icon{
+  position:relative;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  width:76px;
+  height:76px;
+  font-size:34px;
+}
+
+#photo-check .photo-check-full-loading .scan-ring{
+  position:absolute;
+  inset:0;
+  border:3px solid #78ad7d;
+  border-top-color:transparent;
+  border-radius:50%;
+  animation:farmaiRing 1s linear infinite;
+}
+
+#photo-check .photo-check-full-loading .scan-text{
+  margin-top:16px;
+  color:#176b3a;
+  font-weight:800;
+  font-size:16px;
+}
+
+#photo-check .photo-check-full-loading .scan-dots::after{
+  content:'';
+  display:inline-block;
+  width:20px;
+  text-align:left;
+  animation:farmaiDots 1.2s steps(4,end) infinite;
+}
+
+#photo-check .photo-check-result{
+  max-width:760px;
+  margin:18px auto;
+  width:100%;
+}
+
+#photo-check .photo-check-result-title{
+  margin-bottom:10px;
+  color:#176b3a;
+  font-weight:800;
+}
+
+#photo-check .photo-check-result-text{
+  white-space:pre-wrap;
+  line-height:1.6;
+}
+
+#photo-check .photo-check-user{
+  max-width:260px;
+  margin-left:auto;
+  padding:6px;
+}
+
+#photo-check .chat-photo-check-thumb{
+  display:block;
+  width:100%;
+  max-height:240px;
+  object-fit:cover;
+  border-radius:12px;
+}
+
+@media(max-width:600px){
+  #photo-check .photo-check-messages{
+    padding:16px 12px 110px;
+  }
+
+  #photo-check-composer{
+    padding:8px 8px 10px;
+    gap:6px;
+  }
+
+  #photo-check-composer .attach,
+  #photo-check-composer #photo-check-send{
+    flex-basis:46px;
+    width:46px;
+    height:46px;
+  }
+
+  #photo-check-composer #photo-check-question{
+    min-height:46px;
+    padding:11px 12px;
+  }
+
+  #photo-check .disclaimer{
+    padding-bottom:8px;
+  }
+}
