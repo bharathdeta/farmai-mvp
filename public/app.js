@@ -2090,6 +2090,21 @@ try {
     if (preview) preview.hidden = true;
   });
 
+  document.querySelector('#photo-check-clear')?.addEventListener('click', () => {
+    photo = null;
+    fileInput.value = '';
+    if (cameraInput) cameraInput.value = '';
+    if (questionInput) questionInput.value = '';
+    if (preview) preview.hidden = true;
+
+    messagesBox.innerHTML = `
+      <div class="bubble bot">
+        <b>🤖 FarmAI Photo Check</b><br>
+        Upload a photo or take a photo to start a new check.
+      </div>
+    `;
+  });
+
   form.addEventListener('submit', async event => {
     event.preventDefault();
 
