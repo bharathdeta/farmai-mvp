@@ -36,7 +36,59 @@
       </button>
     </div>
   </div>
-</aside></section>
+</aside><button id="open-my-farm" class="my-farm-entry" type="button"><span>🌾</span><span><b>My Farm</b><small>Save your farms, fields, and crops on this device</small></span><b aria-hidden="true">→</b></button></section>
+<section id="my-farm" class="view">
+  <div class="chat-head"><button id="my-farm-back" class="back" type="button" aria-label="Back">←</button><div><b>My Farm</b><small><span></span> Local farm workspace</small></div></div>
+  <section class="my-farm-intro"><h2 id="my-farm-title">Your farm, organised.</h2><p id="my-farm-copy">Your information stays on this computer while we build FarmAI locally.</p></section>
+  <form id="farm-form" class="farm-form">
+    <h3 id="farm-form-title">Add a farm</h3>
+    <label id="farm-name-label">Farm name<input id="my-farm-name" required maxlength="80" placeholder="e.g. Green Fields Farm"></label>
+    <label id="farm-location-label">Village / district <small>(optional)</small><input id="my-farm-location" maxlength="100" placeholder="e.g. Guntur, Andhra Pradesh"></label>
+    <button id="farm-save" class="primary" type="submit">Save farm</button>
+  </form>
+  <div id="farm-list" class="farm-list" aria-live="polite"></div>
+  <form id="field-form" class="farm-form simple-field-form" hidden>
+    <h3 id="field-form-title">Which crop are you growing?</h3>
+    <p class="simple-help" id="field-simple-help">Tap a crop. You can add details later.</p>
+    <div class="quick-crops" id="quick-crops" aria-label="Choose a crop">
+      <button type="button" data-crop="Rice">🌾<span>Rice</span></button><button type="button" data-crop="Cotton">🌿<span>Cotton</span></button><button type="button" data-crop="Maize">🌽<span>Maize</span></button><button type="button" data-crop="Tomato">🍅<span>Tomato</span></button><button type="button" data-crop="Chilli">🌶️<span>Chilli</span></button><button type="button" data-crop="Banana">🍌<span>Banana</span></button>
+    </div>
+    <label id="field-crop-label">Your crop<input id="my-field-crop" required maxlength="60" placeholder="Type another crop name"></label>
+    <details class="more-field-details"><summary id="field-more-details">Add more details (optional)</summary>
+      <label id="field-name-label">Field name<input id="my-field-name" maxlength="80" placeholder="e.g. North field"></label>
+      <div class="profile-row"><label id="field-area-label">Area<input id="my-field-area" type="number" min="0.1" step="0.1" placeholder="2"></label><label id="field-unit-label">Unit<select id="my-field-unit"><option>Acres</option><option>Guntas</option><option>Hectares</option></select></label></div>
+      <label id="field-stage-label">Crop stage<select id="my-field-stage"><option value="unknown">Not sure yet</option><option value="seedling">Seed / Nursery</option><option value="vegetative">Vegetative growth</option><option value="flowering">Flowering</option><option value="fruiting">Fruit / Grain development</option><option value="harvest">Harvest stage</option></select></label>
+    </details>
+    <button id="field-save" class="primary" type="submit">Save crop</button>
+  </form>
+</section>
+<section id="crop-diary" class="view">
+  <div class="chat-head"><button id="crop-diary-back" class="back" type="button" aria-label="Back">←</button><div><b>Crop Diary</b><small><span></span><span id="crop-diary-field-name">Field activity</span></small></div></div>
+  <section class="my-farm-intro"><h2>Keep every farm activity.</h2><p id="crop-diary-summary">Add work, costs, and observations for this field.</p></section>
+  <form id="diary-form" class="farm-form"><h3>Add activity</h3><div class="profile-row"><label>Activity<select id="diary-type" required><option value="">Select activity</option><option>Sowing / planting</option><option>Irrigation</option><option>Fertilizer</option><option>Plant protection</option><option>Field scouting</option><option>Labour</option><option>Harvest</option><option>Other</option></select></label><label>Date<input id="diary-date" type="date" required></label></div><label>Details<input id="diary-details" required maxlength="240" placeholder="What was done or observed?"></label><label>Cost (₹, optional)<input id="diary-cost" type="number" min="0" step="0.01" placeholder="e.g. 500"></label><button class="primary" type="submit">Save activity</button></form>
+  <div id="diary-list" class="farm-list" aria-live="polite"></div>
+</section>
+<section id="farm-weather" class="view">
+  <div class="chat-head"><button id="farm-weather-back" class="back" type="button" aria-label="Back">←</button><div><b>Farm Weather</b><small><span></span><span id="weather-location">Select a field</span></small></div></div>
+  <section class="my-farm-intro"><h2>Plan with the weather.</h2><p id="weather-status">Weather is checked only when you tap refresh.</p></section>
+  <button id="weather-refresh" class="primary weather-refresh" type="button">Check weather</button>
+  <div id="weather-result" class="weather-result" aria-live="polite"></div>
+  <p class="disclaimer weather-disclaimer">Forecasts are guidance, not a guarantee. Confirm critical decisions with local conditions.</p>
+</section>
+<section id="smart-reminders" class="view">
+  <div class="chat-head"><button id="reminders-back" class="back" type="button" aria-label="Back">←</button><div><b>Smart Reminders</b><small><span></span><span id="reminders-field-name">Field tasks</span></small></div></div>
+  <section class="my-farm-intro"><h2>Never miss a farm task.</h2><p id="reminders-summary">Create irrigation, scouting, or crop-care reminders for this field.</p></section>
+  <form id="reminder-form" class="farm-form"><h3>Add reminder</h3><label>Task<input id="reminder-title" required maxlength="120" placeholder="e.g. Check irrigation lines"></label><div class="profile-row"><label>Due date<input id="reminder-date" type="date" required></label><label>Category<select id="reminder-type"><option>Irrigation</option><option>Crop check</option><option>Fertilizer</option><option>Plant protection</option><option>Harvest</option><option>Other</option></select></label></div><button class="primary" type="submit">Save reminder</button></form>
+  <div id="reminder-list" class="farm-list" aria-live="polite"></div>
+</section>
+<section id="crop-doctor" class="view">
+  <div class="chat-head"><button id="crop-doctor-back" class="back" type="button" aria-label="Back">←</button><div><b>Crop Doctor</b><small><span></span><span id="crop-doctor-field-name">Field assessment</span></small></div></div>
+  <section class="my-farm-intro"><h2>Check a crop concern safely.</h2><p id="crop-doctor-summary">Describe what you see. A photo can help, but it cannot confirm a diagnosis.</p></section>
+  <form id="crop-doctor-form" class="farm-form"><h3 id="doctor-form-title">New assessment</h3><label id="doctor-symptoms-label">What are you seeing?<textarea id="crop-doctor-symptoms" required maxlength="1000" rows="4" placeholder="e.g. Yellow spots spreading on lower leaves for 3 days"></textarea></label><button id="doctor-voice" class="voice-button" type="button">🎙️ Speak symptoms</button><label class="doctor-photo" id="doctor-photo-label">Add a photo (optional)<input id="crop-doctor-file" type="file" accept="image/jpeg,image/png,image/webp"></label><div id="crop-doctor-preview" class="preview" hidden><img alt="Selected crop photo"><button type="button" id="crop-doctor-remove" aria-label="Remove photo">×</button></div><button id="crop-doctor-analyze" class="primary" type="submit">Ask Crop Doctor</button></form>
+  <div id="crop-doctor-result" class="doctor-result" aria-live="polite"></div>
+  <div id="crop-doctor-cases" class="farm-list" aria-live="polite"></div>
+  <p class="disclaimer weather-disclaimer">FarmAI provides possible causes and safe next steps. For severe loss or urgent treatment decisions, contact a local agriculture expert.</p>
+</section>
 <section id="photo-check" class="view">
   <div class="chat-head">
     <button class="back photo-check-back" aria-label="Back">←</button>
@@ -198,15 +250,15 @@
 <button id="animal-profile-continue" class="primary profile-continue" type="button" disabled>Continue <b>→</b></button>
 </section>
 </section>
-<section id="chat" class="view"><div class="chat-head"><button class="back" aria-label="Back">←</button><div><b id="sector-name">Agriculture</b><small><span></span> FarmAI is ready</small></div><button id="clear" class="clear">Clear</button></div><div id="messages" class="messages"></div><div id="preview" class="preview" hidden><img alt="Selected image"><button aria-label="Remove photo">×</button></div><form id="composer"><label class="attach" title="Upload a photo">
+<section id="chat" class="view"><div class="chat-head"><button class="back" aria-label="Back">←</button><div><b id="sector-name">Agriculture</b><small><span></span> FarmAI is ready</small></div><button id="listen-last-answer" class="clear" type="button">🔊 Listen</button><button id="clear" class="clear">Clear</button></div><div id="messages" class="messages"></div><div id="preview" class="preview" hidden><img alt="Selected image"><button aria-label="Remove photo">×</button></div><form id="composer"><label class="attach" title="Upload a photo">
 <input id="file" type="file" accept="image/jpeg,image/png,image/webp">
 <span>⌁</span>
 </label>
 <label class="attach camera-capture" title="Capture with camera">
 <input id="camera-file" type="file" accept="image/jpeg,image/png,image/webp" capture="environment">
 <span>📷</span>
-</label><textarea id="question" rows="1" maxlength="1000" placeholder="Ask about your crop…"></textarea><button id="send" type="submit" aria-label="Send">↑</button></form><p class="disclaimer">FarmAI gives guidance, not a substitute for local expert advice.</p></section>
-</main><script src="/app.js?v=7"></script><div id="farm-transition" class="farm-transition" aria-hidden="true">
+</label><textarea id="question" rows="1" maxlength="1000" placeholder="Ask about your crop…"></textarea><button id="voice-chat" class="voice-composer" type="button" aria-label="Speak your question">🎙️</button><button id="send" type="submit" aria-label="Send">↑</button></form><p class="disclaimer">FarmAI gives guidance, not a substitute for local expert advice.</p></section>
+</main><div id="voice-recorder" class="voice-recorder" hidden aria-live="assertive"><button id="voice-recorder-stop" type="button" aria-label="Stop recording"><span>🎙️</span></button><strong id="voice-recorder-title">Listening…</strong><p id="voice-recorder-copy">Tap the microphone again when you finish.</p><i></i><i></i><i></i></div><script src="/app.js?v=7"></script><div id="farm-transition" class="farm-transition" aria-hidden="true">
   <div class="farm-transition-card">
     <div id="farm-transition-icon" class="farm-transition-icon">🌱</div>
     <div id="farm-transition-text" class="farm-transition-text">Opening FarmAI…</div>

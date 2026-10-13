@@ -3,6 +3,12 @@
 
 FarmAI is a mobile-friendly PWA for practical farm questions in Telugu or English. It supports Agriculture, Horticulture, and Fisheries today; Livestock has a prepared home card for the next release. Chat history remains in the user's browser for this MVP. The Gemini key is used only by `/api/chat`, never sent to the browser.
 
+## Local-first My Farm workspace
+
+The current local build includes **My Farm**, where farms and fields can be saved on the same device. Each field has **Crop Doctor** for a saved symptom assessment, **Crop Diary** for farm work, observations, and optional expenses; **Farm Weather** for a current condition and seven-day forecast; and **Smart Reminders** for due-dated farm tasks. Crop Doctor sends the typed concern and optional photo to the configured FarmAI service only when the farmer taps its assessment button; the local case record keeps the concern and answer, not the photo. Weather lookup is user-triggered and sends the saved village/district to Open-Meteo to find the forecast area. Choosing a field opens FarmAI with that field's crop, area, crop stage, and location as chat context. These records use browser storage only: they are not yet synced, shared, or recoverable after browser-data deletion. Cloud accounts and database storage will be added only after the local build is stable.
+
+The local My Farm controls adapt to the selected Telugu, English, or Hindi language. Voice input uses the browser's speech-recognition support for the selected language, and the chat has a "Listen" control for the latest FarmAI reply. Voice buttons are available for the main text fields; when tapped, a large recording screen appears and the same mic button (or the large mic) stops recording. The browser asks for microphone permission only after a farmer taps the microphone button. The Home-page **Ask FarmAI** button opens chat directly; FarmAI then asks only the missing farm details step by step.
+
 ## Run locally
 
 1. Install Node.js 18 or newer.
@@ -32,4 +38,3 @@ Add weather, crop calendars, calculators, voice input, authentication, and a Sup
 
 # farmai-mvp
 FarmAI — a free Telugu and English agriculture assistant for crop, plant, and fish guidance.
-
