@@ -1,4 +1,47 @@
 const MAX_IMAGE_BYTES = 5 * 1024 * 1024;
+const MAX_MESSAGE_CHARS = 2_000;
+const ALLOWED_IMAGE_TYPES = new Set(['image/jpeg', 'image/png', 'image/webp']);
+const rateLimitBuckets = new Map();
+
+function positiveInteger(value, fallback) {
+  const parsed = Number.parseInt(value, 10);
+  return Number.isSafeInteger(parsed) && parsed > 0 ? parsed : fallback;
+}
+
+function getClientIp(req) {
+  const forwarded = req.headers?.['x-forwarded-for'];
+  const forwardedIp = Array.isArray(forwarded) ? forwarded[0] : forwarded;
+  const cloudflareIp = req.headers?.['cf-connecting-ip'];
+  const ip = (forwardedIp || cloudflareIp || req.socket?.remoteAddress || 'unknown')
+    .toString()
+    .split(',')[0]
+    .trim();
+
+  return ip || 'unknown';
+}
+
+function takeRateLimitToken(req, now = Date.now()) {
+  // These environment variables keep the protection tunable without exposing
+  // secrets. Serverless instances maintain their own bucket, so a shared store
+  // is still required before a broad, multi-instance launch.
+  const maxRequests = positiveInteger(process.env.FARMAI_RATE_LIMIT_MAX, 12);
+  const windowMs = positiveInteger(process.env.FARMAI_RATE_LIMIT_WINDOW_MS, 60_000);
+  const clientIp = getClientIp(req);
+  const cutoff = now - windowMs;
+  const recent = (rateLimitBuckets.get(clientIp) || []).filter(timestamp => timestamp > cutoff);
+
+  if (recent.length >= maxRequests) {
+    rateLimitBuckets.set(clientIp, recent);
+    return {
+      allowed: false,
+      retryAfterSeconds: Math.max(1, Math.ceil((recent[0] + windowMs - now) / 1_000))
+    };
+  }
+
+  recent.push(now);
+  rateLimitBuckets.set(clientIp, recent);
+  return { allowed: true };
+}
 
 const cropProfiles = {
   Rice: 'Agriculture — Rice/paddy farming in India. Consider crop stage, water management, nutrient issues, common pests and diseases.',
@@ -95,6 +138,14 @@ module.exports = async function handler(req, res) {
     });
   }
 
+  const rateLimit = takeRateLimitToken(req);
+  if (!rateLimit.allowed) {
+    res.setHeader('Retry-After', String(rateLimit.retryAfterSeconds));
+    return send(res, 429, {
+      error: `Too many requests. Please try again in about ${rateLimit.retryAfterSeconds} seconds.`
+    });
+  }
+
   try {
     const {
       message,
@@ -117,7 +168,14 @@ module.exports = async function handler(req, res) {
       animalLocation = ''
     } = await readJson(req);
 
-    if ((!message || !message.trim()) && !image) {
+    const textMessage = typeof message === 'string' ? message.trim() : '';
+    if (textMessage.length > MAX_MESSAGE_CHARS) {
+      return send(res, 400, {
+        error: `Please keep your question under ${MAX_MESSAGE_CHARS} characters.`
+      });
+    }
+
+    if (!textMessage && !image) {
       return send(res, 400, {
         error: 'Write a question or attach an image.'
       });
@@ -126,9 +184,14 @@ module.exports = async function handler(req, res) {
     if (
       image &&
       (
+        typeof image !== 'object' ||
+        typeof image.data !== 'string' ||
+        typeof image.mimeType !== 'string' ||
         !image.data ||
-        !image.mimeType ||
-        image.data.length > Math.ceil(MAX_IMAGE_BYTES * 4 / 3)
+        !ALLOWED_IMAGE_TYPES.has(image.mimeType) ||
+        image.data.length > Math.ceil(MAX_IMAGE_BYTES * 4 / 3) ||
+        !/^[A-Za-z0-9+/]*={0,2}$/.test(image.data) ||
+        image.data.length % 4 !== 0
       )
     ) {
       return send(res, 400, {
@@ -136,11 +199,13 @@ module.exports = async function handler(req, res) {
       });
     }
 
-    const contents = history
+    const safeHistory = Array.isArray(history) ? history : [];
+    const contents = safeHistory
       .slice(-8)
+      .filter(item => item && typeof item.text === 'string')
       .map(item => ({
         role: item.role === 'assistant' ? 'model' : 'user',
-        parts: [{ text: item.text }]
+        parts: [{ text: item.text.slice(0, MAX_MESSAGE_CHARS) }]
       }));
 
     const cropContext =
@@ -222,7 +287,7 @@ Do not explain the routing marker. Keep it at the very end.
 Selected response language: ${selectedLanguage}
 
 User request:
-${message || 'Please explain this photo.'}
+${textMessage || 'Please explain this photo.'}
 `;
 
     const farm_body = `
@@ -237,7 +302,7 @@ ${sectorDetails}
 Selected response language: ${selectedLanguage}
 
 User request:
-${message || 'Please answer using the supplied farm context.'}
+${textMessage || 'Please answer using the supplied farm context.'}
 
 Provide practical guidance appropriate to this farm context.
 `;
@@ -402,3 +467,5 @@ ${farm_body}
     });
   }
 };
+
+module.exports.__resetRateLimitsForTests = () => rateLimitBuckets.clear();

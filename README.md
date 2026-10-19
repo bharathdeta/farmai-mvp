@@ -1,7 +1,13 @@
 
 # FarmAI MVP v0.1
 
-FarmAI is a mobile-friendly PWA for practical farm questions in Telugu or English. It supports Agriculture, Horticulture, and Fisheries today; Livestock has a prepared home card for the next release. Chat history remains in the user's browser for this MVP. The Gemini key is used only by `/api/chat`, never sent to the browser.
+FarmAI is a mobile-friendly PWA for practical farm questions in Telugu or English. It supports Agriculture, Horticulture, Fisheries, and Livestock guided chat. Chat history remains in the user's browser for this MVP. The Gemini key is used only by `/api/chat`, never sent to the browser.
+
+## API protection
+
+`/api/chat` accepts only POST requests, limits messages and recent history, and accepts JPG, PNG, and WebP images up to 5 MB. It also applies a per-IP, rolling-window limit before an AI-provider request. The default is 12 requests per 60 seconds; set `FARMAI_RATE_LIMIT_MAX` and `FARMAI_RATE_LIMIT_WINDOW_MS` in the server environment to adjust it. A limit response is HTTP `429` with a `Retry-After` header.
+
+The limiter uses process memory, which protects a single local/serverless instance but is not shared across Vercel instances. Before a broad pilot, move the counters to a shared rate-limit store and add authenticated, owner-scoped API access.
 
 ## Local-first My Farm workspace
 
@@ -34,7 +40,7 @@ Vercel Hobby is appropriate for a personal/non-commercial MVP. It has fixed free
 
 ## Next modules
 
-Add weather, crop calendars, calculators, voice input, authentication, and a Supabase-backed history behind separate server routes. Add rate limiting and authentication before broadly sharing the deployed endpoint, because an unauthenticated public endpoint can exhaust a free Gemini quota.
+Add authenticated accounts and a Supabase-backed history behind separate server routes. Before a broad pilot, replace the instance-local rate limiter with shared storage and enforce authenticated, owner-scoped API access.
 
 # farmai-mvp
 FarmAI — a free Telugu and English agriculture assistant for crop, plant, and fish guidance.
